@@ -1,7 +1,5 @@
 require_dependency 'issue'
 
-# Patches Redmine's Issues dynamically.  Adds a relationship 
-# Issue +belongs_to+ to Deliverable
 module IssueModelPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
@@ -25,4 +23,3 @@ module IssueModelPatch
   end
 end
 
-# Add module to Issue

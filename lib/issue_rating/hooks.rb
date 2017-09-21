@@ -12,8 +12,5 @@ module IssueRating
       snippet = jquery_raty_css + jquery + jquery_raty_js 
    	  return snippet
     end
-
  	end
-
-
 end
