@@ -1,0 +1,23 @@
+<div id="issue_rating" ></div>
+<script> 
+$(document).ready(function() {
+	$('#issue_rating').raty({
+
+		path: '/plugin_assets/issue_rating/images/',
+		score: <%= @issue.rating %>	,
+	  <% if @issue.author_id != User.current.id %>
+	  	readOnly:true,
+	  <% else %>
+	  	click: function(score, evt) {
+    	$.ajax({
+      	url: '/issues/' + <%= @issue.id %> ,
+      	type: 'PATCH',
+      	data: { rating: score }
+    	}).done(function (data){});
+  		}
+  	<% end %>
+
+	});
+});
+
+</script>
