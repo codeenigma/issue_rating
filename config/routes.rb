@@ -1,2 +1,1 @@
-# Plugin's routes
-# See: http://guides.rubyonrails.org/routing.html
+patch 'ratings/update_rating/:id', :to => 'ratings#update_rating'

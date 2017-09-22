@@ -1,22 +1,26 @@
 <div id="issue_rating" ></div>
 <script> 
-$(document).ready(function() {
+$(document).ready(function(){
 	$('#issue_rating').raty({
-
 		path: '/plugin_assets/issue_rating/images/',
-		score: <%= @issue.rating %>	,
-	  <% if @issue.author_id != User.current.id %>
-	  	readOnly:true,
-	  <% else %>
+		<% if @issue.rating.nil? %>
+      score: 0,
+    <% else %>
+      score: <%= @issue.rating %>	,
+    <% end %>
+    <% if @issue.assigned_to_id != User.current.id %>
+      readOnly:true,
+    <% else %>
 	  	click: function(score, evt) {
     	$.ajax({
-      	url: '/issues/' + <%= @issue.id %> ,
+      	url: '/ratings/update_rating/' + <%= @issue.id %>,
+      	dataType: 'json',
       	type: 'PATCH',
       	data: { rating: score }
     	}).done(function (data){});
   		}
-  	<% end %>
 
+    <% end %>
 	});
 });
 
