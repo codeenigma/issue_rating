@@ -1,27 +1,38 @@
+<% # Check if module is enabled and if user can rate issue in current project. %>
+<% if @project.module_enabled?(:issue_rating) && User.current.allowed_to?(:rate_issue, @project) %>
+<hr>
+<p><strong>Feedback</strong></p>
+<p>On a scale of 1 to 5, how satisfied are you with Code Enigma services?</p>
 <div id="issue_rating" ></div>
-<script> 
+<% # Instantiate jquery.raty.js on div#issue_rating (tag above). %>
+<script>
 $(document).ready(function(){
-	$('#issue_rating').raty({
+  $('#issue_rating').raty({
 		path: '/plugin_assets/issue_rating/images/',
-		<% if @issue.rating.nil? %>
-      score: 0,
+		<% # To use font stars instead of images, set option: starType: 'i', %>
+		starType: 'i',
+    <% if @issue.rating.nil? %>
+    score: 0,
     <% else %>
-      score: <%= @issue.rating %>	,
+    score: <%= @issue.rating %>,
     <% end %>
+    <% # Allow user to rate issue only if it is the assignee. %>
     <% if @issue.assigned_to_id != User.current.id %>
-      readOnly:true,
+    readOnly: true,
     <% else %>
-	  	click: function(score, evt) {
-    	$.ajax({
-      	url: '/ratings/update_rating/' + <%= @issue.id %>,
-      	dataType: 'json',
-      	type: 'PATCH',
-      	data: { rating: score }
-    	}).done(function (data){});
-  		}
-
+    <% # Current issue is assigned to current user. %>
+    readOnly: false,
+    <% # Declare on click ajax callback to update issue rating in DB. %>
+    click: function(score, evt) {
+      $.ajax({
+        url: '/ratings/update_rating/' + <%= @issue.id %>,
+        dataType: 'json',
+        type: 'PATCH',
+        data: { rating: score }
+      }).done(function (data){});
+    },
     <% end %>
-	});
+  });
 });
-
 </script>
+<% end %>
