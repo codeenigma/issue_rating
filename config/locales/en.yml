@@ -1,4 +1,7 @@
 # English strings go here for Rails i18n
 en:
   # my_label: "My label"
-  field_rating: "Rating"
+  label_issue_rating_rating_val: "Rating: value"
+  label_issue_rating_updated_at: "Rating: timestamp"
+  issue_rating_settings_default_statuses_message: "Select one or more statuses for which the Issue Rating form should be displayed:"
+  issue_rating_none_label: "<None>"

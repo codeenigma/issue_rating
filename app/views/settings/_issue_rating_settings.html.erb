@@ -1,0 +1,17 @@
+<%= # Display a select multiple list of statuses on the admin settings page.
+%>
+<p>
+  <strong><%= l(:issue_rating_settings_default_statuses_message) %></strong>
+</p>
+<p>
+
+  <%= select_tag("settings[issue_rating_statuses]",
+          options_for_select(
+            [[l(:issue_rating_none_label), 0]] +
+            IssueStatus.sorted.collect{|status| [status.name, status.id.to_s]},
+            @settings['issue_rating_statuses']),
+          :id => nil,
+          :multiple => true,
+          :size => 10,
+          :style => "width:150px") %>
+</p>

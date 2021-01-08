@@ -1,4 +1,4 @@
-module IssueRating
+module IssueRatingHooks
 
 	class Hooks < Redmine::Hook::ViewListener
     include ActionView::Helpers::TagHelper
@@ -10,6 +10,8 @@ module IssueRating
       project = context[:project] || return
       return if project.nil?
       # Load JS/CSS only if user has permissions and module enabled in project.
+      # @TODO: Add 'if' condition on issue statuses: currently, assets are
+      # loaded no matter which statuses are allowed.
       if project.module_enabled?(:issue_rating) && User.current.allowed_to?(:rate_issue, project)
         # Add jquery.raty JS/CSS and application CSS to the page.
         jquery_raty_js = javascript_include_tag("jquery.raty.js", :plugin => 'issue_rating')
